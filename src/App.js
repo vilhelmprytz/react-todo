@@ -1,23 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [title, setTitle] = useState("Todo");
+  const [add, setAdd] = useState("");
+  const [items, setItems] = useState([]);
+
+  const handleSubmit = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setItems(items.concat([add]));
+    setAdd("");
+  };
+
+  const remove = (e, index) => {
+    if (e) {
+      e.preventDefault();
+    }
+    setItems(items.splice(index));
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <input
+          className="title"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+        <form onSubmit={handleSubmit}>
+          <input
+            value={add}
+            onChange={(e) => {
+              setAdd(e.target.value);
+            }}
+          />
+        </form>
+        <ul>
+          {items.map((value, index) => {
+            return (
+              <li key={index}>
+                {value}
+                <button
+                  onClick={(e) => {
+                    remove(e, index);
+                  }}
+                >
+                  X
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </header>
     </div>
   );
