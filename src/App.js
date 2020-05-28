@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   const [title, setTitle] = useState("Todo");
   const [add, setAdd] = useState("");
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(["Hello", "World"]);
 
   const handleSubmit = (e) => {
     if (e) {
@@ -18,7 +18,24 @@ function App() {
     if (e) {
       e.preventDefault();
     }
-    setItems(items.splice(index));
+
+    setItems(
+      items.filter(function (item, i) {
+        return i !== index;
+      })
+    );
+  };
+
+  const update = (e, index) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    let temporary = [...items];
+    let item = { ...temporary[index] };
+    item = e.target.value;
+    temporary[index] = item;
+    setItems(temporary);
   };
 
   return (
@@ -43,13 +60,20 @@ function App() {
           {items.map((value, index) => {
             return (
               <li key={index}>
-                {value}
+                <input
+                  className="item"
+                  value={value}
+                  onChange={(e) => {
+                    update(e, index);
+                  }}
+                />
                 <button
+                  className="glow-on-hover"
                   onClick={(e) => {
                     remove(e, index);
                   }}
                 >
-                  X
+                  Remove
                 </button>
               </li>
             );
