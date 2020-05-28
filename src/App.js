@@ -10,6 +10,11 @@ function App() {
     if (e) {
       e.preventDefault();
     }
+
+    if (!add) {
+      return;
+    }
+
     setItems(items.concat([add]));
     setAdd("");
   };
@@ -51,6 +56,7 @@ function App() {
         <form onSubmit={handleSubmit}>
           <input
             value={add}
+            required
             onChange={(e) => {
               setAdd(e.target.value);
             }}
